@@ -3,14 +3,13 @@ Type lib
 
 BuildDirectory        bin
 IntermediateDirectory int
-#SourceDirectory       src
 
 IncludedSourceFiles   $BaseSrcs
 
 CompilerFlags
 LinkerFlags
 Includes              include include/freetype include/freetype/config
-Defines               FT2_BUILD_LIBRARY=1 _CRT_SECURE_NO_WARNINGS FT_CONFIG_MODULES_H=\"ftmodule.h\"
+Defines               FT2_BUILD_LIBRARY=1 _CRT_SECURE_NO_WARNINGS FT_CONFIG_MODULES_H=\"ftmodule.h\" HAVE_FCNTL_H HAVE_UNISTD_H
 Libraries
 LibraryDirectories 
 
@@ -63,17 +62,17 @@ BaseSrcs [
   type1.c
   type42.c
   winfnt.c
-  */windows/ftsystem.c
 ]
 
-if _platform == windows IncludedSourceDirectories builds/windows
-if _platform == linux   IncludedSourceDirectories builds/unix
-
-BaseSrcs */windows/ftdebug.c
+if _platform == windows BaseSrcs */windows/ftsystem.c */windows/ftdebug.c ; IncludedSourceDirectories builds/windows
+if _platform == linux   BaseSrcs */unix/ftsystem.c */wince/ftdebug.c       ; IncludedSourceDirectories builds/unix
 
 # BaseSrcs src/base/ftsystem.c
 
 ##
+if find(unistd.h) Defines HAVE_UNISTD_H
+if find(fcntl.h)  Defines HAVE_FCNTL_H
+
 if (WIN32)
   enable_language(RC)
   list(APPEND BASE_SRCS builds/windows/ftdebug.c
