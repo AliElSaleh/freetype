@@ -11,6 +11,7 @@ LibraryDirectories     ../bin
 
 PreBuild.Cmd           python3 scripts/download-test-fonts.py
 
+AssertWorkingDirectory .
 AssertProgramExists python3
 Program.python3.errormessage {
     You do not have python3 installed on your machine.
