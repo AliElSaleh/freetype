@@ -5,8 +5,6 @@ Version! 2.13.2
 BuildDirectory        bin
 IntermediateDirectory int
 
-IncludedSourceFiles   $BaseSrcs
-
 CompilerFlags
 LinkerFlags
 Includes              include include/freetype include/freetype/config
@@ -14,7 +12,7 @@ Defines               FT2_BUILD_LIBRARY=1 _CRT_SECURE_NO_WARNINGS FT_CONFIG_MODU
 Libraries
 LibraryDirectories 
 
-BaseSrcs [
+IncludedSourceFiles [
   src/autofit/autofit.c
   src/base/ftbase.c
   src/base/ftbbox.c
@@ -57,9 +55,9 @@ BaseSrcs [
   src/winfonts/winfnt.c
 ]
 
-if _platform == windows BaseSrcs2 builds/windows/ftsystem.c builds/windows/ftdebug.c
+if _platform == windows IncludedSourceFiles       builds/windows/ftsystem.c builds/windows/ftdebug.c
 if _platform == windows IncludedSourceDirectories builds/windows
 
-if _platform == unix    BaseSrcs2 builds/unix/ftsystem.c builds/unix/src/base/ftdebug.c src/base/ftdebug.c
+if _platform == unix    IncludedSourceFiles       builds/unix/ftsystem.c builds/unix/src/base/ftdebug.c src/base/ftdebug.c
 if _platform == unix    IncludedSourceDirectories builds/unix builds/base
 
