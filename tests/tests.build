@@ -1,0 +1,20 @@
+Assembly Tests
+RunAssembly
+
+SourceDirectory        issue-1063
+BuildDirectory         ../bin
+IntermediateDirectory  ../int/tests
+
+Includes               ../include
+Libraries              freetype
+LibraryDirectories     ../bin
+
+PreBuild.Cmd           python3 scripts/download-test-fonts.py
+
+AssertProgramExists python3
+Program.python3.errormessage {
+    You do not have python3 installed on your machine.
+    Go to https://www.python.org/downloads to download the latest binary release
+
+    Once downloaded, add the executable to the PATH environment
+}
