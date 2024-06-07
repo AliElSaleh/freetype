@@ -1,11 +1,11 @@
 Assembly freetype
-Type lib
+Type static_lib
 Version! 2.13.2
 
 BuildDirectory        bin
 IntermediateDirectory int
 
-IncludedSourceFiles   $BaseSrcs2
+IncludedSourceFiles   $BaseSrcs
 
 CompilerFlags
 LinkerFlags
@@ -14,7 +14,7 @@ Defines               FT2_BUILD_LIBRARY=1 _CRT_SECURE_NO_WARNINGS FT_CONFIG_MODU
 Libraries
 LibraryDirectories 
 
-BaseSrcs2 [
+BaseSrcs [
   src/autofit/autofit.c
   src/base/ftbase.c
   src/base/ftbbox.c
@@ -62,64 +62,4 @@ if _platform == windows IncludedSourceDirectories builds/windows
 
 if _platform == unix    BaseSrcs2 builds/unix/ftsystem.c builds/unix/src/base/ftdebug.c src/base/ftdebug.c
 if _platform == unix    IncludedSourceDirectories builds/unix builds/base
-:w
-
-##
-if find(unistd.h) Defines HAVE_UNISTD_H
-if find(fcntl.h)  Defines HAVE_FCNTL_H
-
-# if _platform == mac BaseSrcs builds/mac/freetype-Info.plist
-
-##
-BaseSrcs [
-  autofit.c
-  ftbase.c
-  ftbbox.c
-  ftbdf.c
-  ftbitmap.c
-  ftcid.c
-  ftfstype.c
-  ftgasp.c
-  ftglyph.c
-  ftgxval.c
-  ftinit.c
-  ftmm.c
-  ftotval.c
-  ftpatent.c
-  ftpfr.c
-  ftstroke.c
-  ftsynth.c
-  fttype1.c
-  ftwinfnt.c
-  bdf.c
-  ftbzip2.c
-  ftcache.c
-  cff.c
-  type1cid.c
-  ftgzip.c
-  ftlzw.c
-  pcf.c
-  pfr.c
-  psaux.c
-  pshinter.c
-  psnames.c
-  raster.c
-  sdf.c
-  sfnt.c
-  smooth.c
-  svg.c
-  truetype.c
-  type1.c
-  type42.c
-  winfnt.c
-]
-
-AssertProgramExists python3
-Program.python3.errormessage {
-    You do not have python3 installed on this machine.
-    Go to https://www.python.org/downloads to download the latest python release.
-    
-    Once installed, add the executable to the path enviornment
-}
-##
 
