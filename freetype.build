@@ -1,0 +1,100 @@
+Assembly freetype
+Type lib
+
+BuildDirectory        bin
+IntermediateDirectory int
+#SourceDirectory       src
+
+IncludedSourceFiles   $BaseSrcs
+
+CompilerFlags
+LinkerFlags
+Includes              include include/freetype include/freetype/config
+Defines               FT2_BUILD_LIBRARY=1 _CRT_SECURE_NO_WARNINGS FT_CONFIG_MODULES_H=\"ftmodule.h\"
+Libraries
+LibraryDirectories 
+
+##
+PreBuild.Cmd          python3 builds/meson/extract_libtool_version.py --soversion builds/unix/configure.raw
+PreBuild.Cmd          python3 builds/meson/parse_modules_cfg.py --format=ftmodule.h modules.cfg --output include/freetype/config/ftmodule.h
+PreBuild.Cmd          python3 builds/meson/parse_modules_cfg.py --format=main-modules modules.cfg
+PreBuild.Cmd          python3 builds/meson/parse_modules_cfg.py --format=aux-modules modules.cfg
+PreBuild.Cmd          python3 builds/meson/parse_modules_cfg.py --format=base-extensions-list modules.cfg
+##
+
+BaseSrcs [
+  autofit.c
+  ftbase.c
+  ftbbox.c
+  ftbdf.c
+  ftbitmap.c
+  ftcid.c
+  ftfstype.c
+  ftgasp.c
+  ftglyph.c
+  ftgxval.c
+  ftinit.c
+  ftmm.c
+  ftotval.c
+  ftpatent.c
+  ftpfr.c
+  ftstroke.c
+  ftsynth.c
+  fttype1.c
+  ftwinfnt.c
+  bdf.c
+  ftbzip2.c
+  ftcache.c
+  cff.c
+  type1cid.c
+  ftgzip.c
+  ftlzw.c
+  pcf.c
+  pfr.c
+  psaux.c
+  pshinter.c
+  psnames.c
+  raster.c
+  sdf.c
+  sfnt.c
+  smooth.c
+  svg.c
+  truetype.c
+  type1.c
+  type42.c
+  winfnt.c
+  */windows/ftsystem.c
+]
+
+if _platform == windows IncludedSourceDirectories builds/windows
+if _platform == linux   IncludedSourceDirectories builds/unix
+
+BaseSrcs */windows/ftdebug.c
+
+# BaseSrcs src/base/ftsystem.c
+
+##
+if (WIN32)
+  enable_language(RC)
+  list(APPEND BASE_SRCS builds/windows/ftdebug.c
+                        src/base/ftver.rc)
+elseif (WINCE)
+  list(APPEND BASE_SRCS builds/wince/ftdebug.c)
+else ()
+  list(APPEND BASE_SRCS src/base/ftdebug.c)
+endif ()
+##
+
+# if _platform == mac BaseSrcs builds/mac/freetype-Info.plist
+
+
+##
+AssertProgramExists python3
+Program.python3.errormessage {
+    You do not have python3 installed on this machine.
+    Go to https://www.python.org/downloads to download the latest python release.
+    
+    Once installed, add the executable to the path enviornment
+}
+##
+
