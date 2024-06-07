@@ -1,10 +1,11 @@
 Assembly freetype
 Type lib
+Version! 2.13.2
 
 BuildDirectory        bin
 IntermediateDirectory int
 
-IncludedSourceFiles   $BaseSrcs
+IncludedSourceFiles   $BaseSrcs2
 
 CompilerFlags
 LinkerFlags
@@ -13,14 +14,63 @@ Defines               FT2_BUILD_LIBRARY=1 _CRT_SECURE_NO_WARNINGS FT_CONFIG_MODU
 Libraries
 LibraryDirectories 
 
-##
-PreBuild.Cmd          python3 builds/meson/extract_libtool_version.py --soversion builds/unix/configure.raw
-PreBuild.Cmd          python3 builds/meson/parse_modules_cfg.py --format=ftmodule.h modules.cfg --output include/freetype/config/ftmodule.h
-PreBuild.Cmd          python3 builds/meson/parse_modules_cfg.py --format=main-modules modules.cfg
-PreBuild.Cmd          python3 builds/meson/parse_modules_cfg.py --format=aux-modules modules.cfg
-PreBuild.Cmd          python3 builds/meson/parse_modules_cfg.py --format=base-extensions-list modules.cfg
-##
+BaseSrcs2 [
+  src/autofit/autofit.c
+  src/base/ftbase.c
+  src/base/ftbbox.c
+  src/base/ftbdf.c
+  src/base/ftbitmap.c
+  src/base/ftcid.c
+  src/base/ftfstype.c
+  src/base/ftgasp.c
+  src/base/ftglyph.c
+  src/base/ftgxval.c
+  src/base/ftinit.c
+  src/base/ftmm.c
+  src/base/ftotval.c
+  src/base/ftpatent.c
+  src/base/ftpfr.c
+  src/base/ftstroke.c
+  src/base/ftsynth.c
+  src/base/fttype1.c
+  src/base/ftwinfnt.c
+  src/bdf/bdf.c
+  src/bzip2/ftbzip2.c
+  src/cache/ftcache.c
+  src/cff/cff.c
+  src/cid/type1cid.c
+  src/gzip/ftgzip.c
+  src/lzw/ftlzw.c
+  src/pcf/pcf.c
+  src/pfr/pfr.c
+  src/psaux/psaux.c
+  src/pshinter/pshinter.c
+  src/psnames/psnames.c
+  src/raster/raster.c
+  src/sdf/sdf.c
+  src/sfnt/sfnt.c
+  src/smooth/smooth.c
+  src/svg/svg.c
+  src/truetype/truetype.c
+  src/type1/type1.c
+  src/type42/type42.c
+  src/winfonts/winfnt.c
+]
 
+if _platform == windows BaseSrcs2 builds/windows/ftsystem.c builds/windows/ftdebug.c
+if _platform == windows IncludedSourceDirectories builds/windows
+
+if _platform == unix    BaseSrcs2 builds/unix/ftsystem.c builds/unix/src/base/ftdebug.c src/base/ftdebug.c
+if _platform == unix    IncludedSourceDirectories builds/unix builds/base
+:w
+
+##
+if find(unistd.h) Defines HAVE_UNISTD_H
+if find(fcntl.h)  Defines HAVE_FCNTL_H
+
+# if _platform == mac BaseSrcs builds/mac/freetype-Info.plist
+
+##
 BaseSrcs [
   autofit.c
   ftbase.c
@@ -64,30 +114,6 @@ BaseSrcs [
   winfnt.c
 ]
 
-if _platform == windows BaseSrcs */windows/ftsystem.c */windows/ftdebug.c ; IncludedSourceDirectories builds/windows
-if _platform == linux   BaseSrcs */unix/ftsystem.c */wince/ftdebug.c       ; IncludedSourceDirectories builds/unix
-
-# BaseSrcs src/base/ftsystem.c
-
-##
-if find(unistd.h) Defines HAVE_UNISTD_H
-if find(fcntl.h)  Defines HAVE_FCNTL_H
-
-if (WIN32)
-  enable_language(RC)
-  list(APPEND BASE_SRCS builds/windows/ftdebug.c
-                        src/base/ftver.rc)
-elseif (WINCE)
-  list(APPEND BASE_SRCS builds/wince/ftdebug.c)
-else ()
-  list(APPEND BASE_SRCS src/base/ftdebug.c)
-endif ()
-##
-
-# if _platform == mac BaseSrcs builds/mac/freetype-Info.plist
-
-
-##
 AssertProgramExists python3
 Program.python3.errormessage {
     You do not have python3 installed on this machine.
