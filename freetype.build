@@ -1,6 +1,6 @@
 Assembly freetype
-Type static_lib
-Version! 2.13.2
+Type     static_lib
+Version  2.13.2
 
 BuildDirectory        bin
 IntermediateDirectory int
@@ -55,9 +55,7 @@ IncludedSourceFiles [
   src/winfonts/winfnt.c
 ]
 
-if _platform == windows IncludedSourceFiles       builds/windows/ftsystem.c builds/windows/ftdebug.c
-if _platform == windows IncludedSourceDirectories builds/windows
-
-if _platform == unix    IncludedSourceFiles       builds/unix/ftsystem.c builds/unix/src/base/ftdebug.c src/base/ftdebug.c
-if _platform == unix    IncludedSourceDirectories builds/unix builds/base
-
+if windows IncludedSourceFiles       builds/windows/ftsystem.c builds/windows/ftdebug.c
+if windows IncludedSourceDirectories builds/windows
+if unix    IncludedSourceFiles       builds/unix/ftsystem.c builds/unix/src/base/ftdebug.c src/base/ftdebug.c
+if unix    IncludedSourceDirectories builds/unix builds/base
