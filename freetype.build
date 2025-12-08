@@ -55,7 +55,13 @@ IncludedSourceFiles [
   src/winfonts/winfnt.c
 ]
 
-if windows IncludedSourceFiles       builds/windows/ftsystem.c builds/windows/ftdebug.c
-if windows IncludedSourceDirectories builds/windows
-if unix    IncludedSourceFiles       builds/unix/ftsystem.c builds/unix/src/base/ftdebug.c src/base/ftdebug.c
-if unix    IncludedSourceDirectories builds/unix builds/base
+if windows
+{
+  SourceFiles       builds/windows/ftsystem.c builds/windows/ftdebug.c
+  SourceDirectories builds/windows
+}
+if unix
+{
+  SourceFiles       builds/unix/ftsystem.c builds/unix/src/base/ftdebug.c src/base/ftdebug.c
+  SourceDirectories builds/unix builds/base
+}
