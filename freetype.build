@@ -4,15 +4,19 @@ Version  2.13.2
 
 BuildDirectory        bin
 IntermediateDirectory int
+SourceDirectories     src
 
-CompilerFlags
-LinkerFlags
-Includes              include include/freetype include/freetype/config
-Defines               FT2_BUILD_LIBRARY=1 _CRT_SECURE_NO_WARNINGS FT_CONFIG_MODULES_H=\"ftmodule.h\" HAVE_FCNTL_H HAVE_UNISTD_H
+Compiler.Flags
+Compiler.Includes              include include/freetype include/freetype/config
+Compiler.Defines               FT2_BUILD_LIBRARY=1 _CRT_SECURE_NO_WARNINGS FT_CONFIG_MODULES_H=\"ftmodule.h\" HAVE_FCNTL_H HAVE_UNISTD_H
+
+Linker.Flags
+
 Libraries
-LibraryDirectories 
+Library.Paths
 
-IncludedSourceFiles [
+SourceFiles
+[
   src/autofit/autofit.c
   src/base/ftbase.c
   src/base/ftbbox.c
@@ -60,8 +64,10 @@ if windows
   SourceFiles       builds/windows/ftsystem.c builds/windows/ftdebug.c
   SourceDirectories builds/windows
 }
+
 if unix
 {
   SourceFiles       builds/unix/ftsystem.c builds/unix/src/base/ftdebug.c src/base/ftdebug.c
   SourceDirectories builds/unix builds/base
 }
+
