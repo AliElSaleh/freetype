@@ -4,7 +4,7 @@
  *
  *   TrueType GX Font Variation loader (specification)
  *
- * Copyright (C) 2004-2025 by
+ * Copyright (C) 2004-2026 by
  * David Turner, Robert Wilhelm, Werner Lemberg and George Williams.
  *
  * This file is part of the FreeType project, and may only be used,
@@ -303,6 +303,11 @@ FT_BEGIN_HEADER
     FT_ULong*       glyphoffsets;         /* glyphoffsets[gv_glyphcnt + 1] */
 
     FT_ULong        gvar_size;
+
+    /* Scratch pool reused across glyphs by `TT_Vary_Apply_Glyph_Deltas`, */
+    /* grown on demand, to avoid per-glyph/per-tuple heap allocations.    */
+    FT_Byte*        glyph_delta_pool;
+    FT_ULong        glyph_delta_pool_size;
 
   } GX_BlendRec;
 
